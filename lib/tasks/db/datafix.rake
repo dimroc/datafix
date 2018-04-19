@@ -46,7 +46,7 @@ namespace :db do
   private
 
   def migrations
-    ActiveRecord::Migrator.migrations(Rails.root.join("db", "datafixes"))
+    ActiveRecord::MigrationContext.new(Rails.root.join("db", "datafixes")).migrations
   end
 
   def script_from_name(name)
