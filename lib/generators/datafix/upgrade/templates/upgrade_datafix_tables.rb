@@ -7,7 +7,7 @@ class UpgradeDatafixTables < ActiveRecord::Migration
     add_index :datafix_statuses, :version, unique: true
     rename_table :datafix_log, :datafix_logs
 
-    datafixes = ActiveRecord::Migrator.migrations(Rails.root.join("db", "datafixes"))
+    datafixes = ActiveRecord::MigrationContext.new(Rails.root.join("db", "datafixes")).migrations
     datafixes.each_slice(1000) do |batch|
       execute("INSERT INTO datafix_statuses (version) VALUES #{to_sql(batch)}")
     end
